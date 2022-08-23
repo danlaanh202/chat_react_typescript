@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+@layer base {
+  body {
+    @apply font-primary dark:text-white;
+  }
+  .sidebar-room {
+    height: 100%;
+    max-height: calc(100vh - 64px);
+  }
+
+  // .msg-container {
+  //   max-height: calc(100vw - 70px);
+  // }
+}
+.background-cat {
+  background-image: url("https://i.pinimg.com/736x/aa/a2/73/aaa2733c561e6ed0098f918ceddfdc33.jpg");
+}
+::-webkit-scrollbar {
+  width: 18px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
