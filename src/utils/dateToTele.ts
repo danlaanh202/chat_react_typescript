@@ -3,10 +3,10 @@ export const dateToTele = (date: Date) => {
   const d2 = new Date();
 
   if (isTheSameDay(d1, d2)) {
-    return `${d1.toLocaleString("en-US", {
+    return `${d1.toLocaleString("vi-VN", {
       hour: "numeric",
       minute: "numeric",
-      hour12: true,
+      hour12: false,
     })}`;
   }
   if (isTheSameWeek(d1, d2)) {
@@ -16,14 +16,17 @@ export const dateToTele = (date: Date) => {
     return `${`${d1}`.substring(4, 7)} ${d1.getDate()}`;
   }
 };
-const isTheSameDay = (d1: Date, d2: Date) => {
+export const strToDate = (d: string) => {
+  return new Date(d);
+};
+export const isTheSameDay = (d1: Date, d2: Date) => {
   return (
     d1.getFullYear() === d2.getFullYear() &&
     d1.getMonth() === d2.getMonth() &&
     d1.getDate() === d2.getDate()
   );
 };
-const isTheSameYear = (d1: Date, d2: Date) => {
+export const isTheSameYear = (d1: Date, d2: Date) => {
   return d1.getFullYear() === d2.getFullYear();
 };
 const getWeek = (date: Date) => {
@@ -34,6 +37,6 @@ const getWeek = (date: Date) => {
       7
   );
 };
-const isTheSameWeek = (d1: Date, d2: Date) => {
+export const isTheSameWeek = (d1: Date, d2: Date) => {
   return getWeek(d1) === getWeek(d2);
 };

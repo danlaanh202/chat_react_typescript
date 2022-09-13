@@ -88,18 +88,23 @@ const CreateRoomDialog = ({
   return (
     <div>
       <Dialog
-        classes={{ paper: "min-w-[500px] dark:bg-dark-bg dark:text-white" }}
+        classes={{
+          paper:
+            "w-full md:w-auto md:min-w-[500px] dark:bg-dark-bg dark:text-white",
+        }}
         open={open}
         onClose={closeDialog}
       >
         <CloseIcon
           onClick={closeDialog}
           fontSize="medium"
-          className="absolute text-black rounded-full cursor-pointer top-4 right-4"
+          className="absolute text-black rounded-full cursor-pointer dark:text-white top-4 right-4"
         />
         <DialogTitle>New conversation</DialogTitle>
         <DialogContent>
-          <DialogContentText>Fill this form</DialogContentText>
+          <DialogContentText className="dark:text-white">
+            Fill this form
+          </DialogContentText>
           <TextField
             autoFocus
             label="Room's name"
@@ -109,6 +114,14 @@ const CreateRoomDialog = ({
             value={room}
             onChange={(e) => setRoom(e.target.value)}
             margin="dense"
+            InputProps={{
+              classes: {
+                input: "dark:text-white ",
+              },
+            }}
+            InputLabelProps={{
+              className: "dark:text-gray-sm",
+            }}
           />
           <TextField
             label="Search users"
@@ -120,6 +133,14 @@ const CreateRoomDialog = ({
               setMember(e.target.value);
             }}
             margin="dense"
+            InputProps={{
+              classes: {
+                input: "dark:text-white ",
+              },
+            }}
+            InputLabelProps={{
+              className: "dark:text-gray-sm",
+            }}
           />
           <div className="flex py-4 min-h-[113px] overflow-x-scroll gap-x-4">
             {checkedIds.length > 0 &&
@@ -162,6 +183,9 @@ const CreateRoomDialog = ({
                     <span>{item?.username}</span>
                   </div>
                   <Checkbox
+                    classes={{
+                      root: "dark:text-white",
+                    }}
                     checked={checkedIds.includes(item._id)}
                     sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                   />
@@ -172,7 +196,7 @@ const CreateRoomDialog = ({
 
         <div className="flex justify-center w-full">
           <button
-            className="w-11/12 p-1 my-2 mb-6 text-lg font-semibold text-white rounded-lg cursor-pointer bg-primary-color m "
+            className="w-11/12 p-1 my-2 mb-6 text-lg font-semibold text-white rounded-lg cursor-pointer bg-secondary-color m "
             disabled={!room && checkedIds.length === 0}
             onClick={createRoom}
           >

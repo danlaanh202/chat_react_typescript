@@ -13,11 +13,13 @@ const MsgInputContainer = ({
   roomId,
   socket,
   setToBottom,
+  openModal,
 }: {
   className?: string;
   roomId?: string;
   socket?: any;
   setToBottom?: any;
+  openModal: any;
 }) => {
   const currentUser = useSelector(
     (state: IRootState) => state.user.currentUser as IUser
@@ -52,13 +54,16 @@ const MsgInputContainer = ({
               setMsg(e.target.value)
             }
             type="text"
-            className="w-full p-2 pl-10 pr-20 bg-dark-bg"
+            className="w-full p-2 pl-10 pr-20 bg-white dark:bg-dark-bg"
             placeholder="Message"
           />
           <button type="submit">
             <SendIcon className="absolute -translate-y-1/2 cursor-pointer top-1/2 right-12" />
           </button>
-          <Attach className="absolute -translate-y-1/2 cursor-pointer top-1/2 right-4" />
+          <Attach
+            onClick={() => openModal(true)}
+            className="absolute -translate-y-1/2 cursor-pointer top-1/2 right-4"
+          />
         </form>
       </div>
     </div>

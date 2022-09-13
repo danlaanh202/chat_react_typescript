@@ -30,7 +30,7 @@ export default function MuiMenu({ setShowDialog }: { setShowDialog: any }) {
         onClick={handleMenu}
         color="inherit"
       >
-        <PencilIcon />
+        <PencilIcon className="text-white " />
       </IconButton>
       <Menu
         id="menu-appbar"
@@ -45,12 +45,12 @@ export default function MuiMenu({ setShowDialog }: { setShowDialog: any }) {
           horizontal: "right",
         }}
         classes={{
-          list: "bg-dark-bg",
+          list: "dark:bg-dark-bg bg-white",
         }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <div className="text-white">
+        <div className="dark:text-white">
           <MenuItem className="flex gap-2" onClick={handleClose}>
             <VolumeMuteIcon />
             <span>New Channel</span>

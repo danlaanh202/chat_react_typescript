@@ -18,6 +18,7 @@ export interface IRoom {
   room_name: string;
   room_host: string;
   updated_at?: Date;
+  last_message?: IMessage;
 }
 export type TRoom = IRoom[];
 
@@ -26,7 +27,17 @@ export interface IMessage {
   created_at?: Date;
   message?: string;
   room?: string;
-  user?: string;
+  user?: string | IUser;
+  image?: IImage;
+}
+export interface IImage {
+  _id?: string;
+  uploader?: string;
+  is_message: Boolean;
+  is_user_avatar: Boolean;
+  room_id: Boolean;
+  is_room_avatar: Boolean;
+  image_url: string;
 }
 export interface ISignupUser extends ILoginUser {
   confirmPassword?: string;

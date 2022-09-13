@@ -11,6 +11,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import AddIcon from "@mui/icons-material/Add";
 import { IUser } from "../../types";
 import { publicRequest } from "../../utils/requestMethod";
+import { socket } from "../../App";
 
 export default function AddMemberDialog({ roomId }: { roomId: string }) {
   const [open, setOpen] = useState(false);
@@ -71,19 +72,12 @@ export default function AddMemberDialog({ roomId }: { roomId: string }) {
     newCheckedUser.splice(indexOfUser, 1);
     setCheckedUser(newCheckedUser);
   };
-  const handleAddMember = async () => {
-    try {
-      await publicRequest
-        .put("/room/add_users", {
-          userIds: checkedIds,
-          roomId: roomId,
-        })
-        .then((response) => {
-          handleClose();
-        });
-    } catch (error) {
-      console.log("error in addMemberDialog Call api line 74");
-    }
+  const handleAddMember = () => {
+    socket.emit("add_member_to_room", {
+      userIds: checkedIds,
+      roomId: roomId,
+    });
+    handleClose();
   };
   return (
     <Fragment>

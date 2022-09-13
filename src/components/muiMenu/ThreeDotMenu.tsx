@@ -2,17 +2,19 @@ import * as React from "react";
 
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import Menu from "@mui/material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import DotVertical from "../../icons/DotVertical";
 import AddMemberDialog from "../dialog/AddMemberDialog";
 import { useDispatch } from "react-redux";
 import { deleteRoomDispatcher } from "../../utils/room";
+import DeleteRoomDialog from "../dialog/DeleteRoomDialog";
 
 export default function ThreeDotMenu({ roomId }: { roomId?: string }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [showDialog, setShowDialog] = React.useState(false);
+  const [deleteDialog, setDeleteDialog] = React.useState(false);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -27,6 +29,11 @@ export default function ThreeDotMenu({ roomId }: { roomId?: string }) {
   const dispatch = useDispatch();
   const deleteRoom = () => {
     deleteRoomDispatcher(dispatch, roomId as string);
+
+    handleClose();
+  };
+  const openDeleteMemberDialog = () => {
+    setDeleteDialog(true);
     handleClose();
   };
   return (
@@ -55,19 +62,21 @@ export default function ThreeDotMenu({ roomId }: { roomId?: string }) {
             horizontal: "left",
           }}
           classes={{
-            paper: "!translate-y-10",
-            list: "bg-dark-bg",
+            paper: "!translate-y-12 ",
+            list: "dark:bg-dark-bg bg-white",
           }}
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <div className="text-white">
-            <MenuItem className="flex gap-2" onClick={openAddMemberDialog}>
+          <div className="">
+            <MenuItem className="flex gap-2 " onClick={openAddMemberDialog}>
               <AddMemberDialog roomId={roomId as string} />
             </MenuItem>
-            <MenuItem className="flex gap-2 !text-red-400" onClick={deleteRoom}>
-              <DeleteIcon />
-              <span>Delete Room</span>
+            <MenuItem
+              className="flex gap-2 !text-red-400"
+              onClick={openDeleteMemberDialog}
+            >
+              <DeleteRoomDialog deleteRoom={deleteRoom} />
             </MenuItem>
           </div>
         </Menu>

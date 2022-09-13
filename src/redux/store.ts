@@ -1,6 +1,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./userRedux";
 import roomReducer from "./roomRedux";
+import screenReducer from "./screenRedux";
+import themeReducer from "./themeRedux";
 
 import { persistStore, persistReducer } from "redux-persist";
 
@@ -15,6 +17,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   room: roomReducer,
+  screen: screenReducer,
+  theme: themeReducer,
 });
 
 export type IRootState = ReturnType<typeof rootReducer>;

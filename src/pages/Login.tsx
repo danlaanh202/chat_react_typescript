@@ -1,16 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
+import * as yup from "yup";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useSelector } from "react-redux";
 import { IRootState } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { ILoginUser, IUser } from "../types";
 import { login } from "../utils/auth";
 import { Dispatch } from "@reduxjs/toolkit";
-import { useEffect } from "react";
+import SnackbarComponent from "../components/snackbar/SnackbarComponent";
+import useSnackbarState from "../hooks/useSnackbarState";
 const schema = yup.object({
   username: yup.string().required("Username is required"),
   password: yup
@@ -20,7 +23,6 @@ const schema = yup.object({
 });
 const Login = () => {
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors, isValid, isSubmitting },
@@ -31,36 +33,37 @@ const Login = () => {
   const currentUser = useSelector(
     (state: IRootState) => state.user.currentUser as IUser
   );
+  const [snackbar, setSnackbar, severity, setSeverity, message, setMessage] =
+    useSnackbarState();
+
   const navigate = useNavigate();
   useEffect(() => {
     if (currentUser?._id) {
       navigate("/");
     }
   }, []);
-  const { isFetching, error } = useSelector((state: IRootState) => state.user);
+  // const { isFetching, error } = useSelector((state: IRootState) => state.user);
   const dispatch = useDispatch<Dispatch<any>>();
   const onSubmitHandler = (data: ILoginUser) => {
+    // setSnackbar(true);
+    // console.log("snackbar");
     if (!isValid) return;
-    login(dispatch, data);
+    login(dispatch, data, setSnackbar, setSeverity, setMessage);
   };
   return (
     <div className="flex flex-col items-center justify-center h-screen dark:bg-dark-bg dark:text-white gap-y-5 ">
-      <div className="w-40 h-40 rounded-full dark:bg-primary-color">
-        <img
-          className="object-cover "
-          src="https://cdns.iconmonstr.com/wp-content/releases/preview/2018/240/iconmonstr-telegram-1.png"
-          alt=""
-        />
+      <div className="flex items-center justify-center w-20 h-20 rounded-full lg:w-40 lg:h-40 dark:bg-primary-color">
+        <TelegramIcon className="!w-3/4 !h-3/4" />
       </div>
-      <h1 className="text-3xl">Sign in to Telegram</h1>
-      <p className="text-center ">
+      <h1 className="text-xl lg:text-3xl">Sign in to Telegram</h1>
+      <p className="text-center">
         Please confirm your username and
         <br />
         password to login
       </p>
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
-        className="w-[360px] flex flex-col gap-y-4  "
+        className="lg:w-[360px] w-[90vw] flex flex-col gap-y-4  "
       >
         <Input
           id="username"
@@ -88,6 +91,12 @@ const Login = () => {
         </div>
         <Button type="submit">Sign in</Button>
       </form>
+      <SnackbarComponent
+        open={snackbar}
+        setOpen={setSnackbar}
+        message={message}
+        severity={severity}
+      />
     </div>
   );
 };

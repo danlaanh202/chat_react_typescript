@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import {
   BrowserRouter,
+  HashRouter,
   Navigate,
   Route,
   Routes,
@@ -15,13 +16,29 @@ import Register from "./pages/Register";
 import { useEffect } from "react";
 import _ from "lodash";
 import { IUser } from "./types";
+import { useDispatch } from "react-redux";
+import { showSidebar } from "./redux/screenRedux";
 export const socket = io(`${process.env.REACT_APP_API_URL}`);
 const App = () => {
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state: IRootState) => state.user);
+  const show = useSelector((state: IRootState) => state.screen);
+  const theme = useSelector((state: IRootState) => state.theme);
 
+  useEffect(() => {
+    dispatch(showSidebar());
+  }, []);
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme.isDark) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [theme.isDark]);
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route
             path="/r/:id"
@@ -46,7 +63,7 @@ const App = () => {
             }
           ></Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 };
